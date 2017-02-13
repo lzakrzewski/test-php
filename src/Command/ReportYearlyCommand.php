@@ -14,7 +14,6 @@ class ReportYearlyCommand extends ContainerAwareCommand
         $this
             ->setName('report:profiles:yearly')
             ->setDescription('Page views report')
-            ->addOption('year', null, InputOption::VALUE_OPTIONAL, 'Specify report year', date('Y'))
         ;
     }
 
