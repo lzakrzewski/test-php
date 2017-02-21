@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BOF\Command;
+namespace BOF\CLI\Command;
 
 use Doctrine\DBAL\Driver\Connection;
 use Symfony\Component\Console\Input\InputInterface;

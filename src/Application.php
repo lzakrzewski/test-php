@@ -10,14 +10,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-/**
- * Class Application.
- */
-class Application extends ConsoleApplication
+final class Application extends ConsoleApplication
 {
-    /**
-     * @var ContainerBuilder
-     */
+    /** @var ContainerBuilder */
     private $container;
 
     /**
@@ -41,9 +36,17 @@ class Application extends ConsoleApplication
     }
 
     /**
+     * @return ContainerBuilder
+     */
+    public function getContainer(): ContainerBuilder
+    {
+        return $this->container;
+    }
+
+    /**
      * @return Command[] An array of default Command instances
      */
-    protected function getConfiguredCommands()
+    private function getConfiguredCommands(): array
     {
         $commands = [];
         foreach ($this->container->findTaggedServiceIds('console.command') as $commandId => $command) {
@@ -51,13 +54,5 @@ class Application extends ConsoleApplication
         }
 
         return $commands;
-    }
-
-    /**
-     * @return ContainerBuilder
-     */
-    public function getContainer(): ContainerBuilder
-    {
-        return $this->container;
     }
 }

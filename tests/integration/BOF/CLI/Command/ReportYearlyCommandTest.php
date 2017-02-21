@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace tests\unit\BOF;
+namespace tests\integration\BOF;
 
 use PHPUnit\Framework\TestCase;
 
-class TestTest extends TestCase
+class ReportYearlyCommandTest extends TestCase
 {
     public function testTest()
     {

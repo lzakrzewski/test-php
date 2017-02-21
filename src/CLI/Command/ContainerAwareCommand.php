@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BOF\Command;
+namespace BOF\CLI\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
