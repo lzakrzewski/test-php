@@ -23,6 +23,8 @@ final class Application extends ConsoleApplication
     {
         $this->container = new ContainerBuilder();
         $loader          = new YamlFileLoader($this->container, new FileLocator(__DIR__.'/../app'));
+
+        $loader->load('parameters.yml');
         $loader->load('config.yml');
         $loader->load('services.yml');
 
