@@ -4,6 +4,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0",
+        "incenteev/composer-parameter-handler": "~2.0",
 
         "symfony/console": "^3.2",
         "symfony/finder": "^3.2",
@@ -40,16 +41,29 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ],
         "static-analysis": "bin/php-cs-fixer fix --config-file=.php_cs",
+        "setup-database": "bin/setup-database",
         "integration": "bin/phpunit --testsuite=integration",
         "acceptance": "bin/behat --out=std",
         "test": [
             "@static-analysis",
+            "@setup-database",
             "@integration",
             "@acceptance"
         ]
     },
     "config": {
         "bin-dir": "bin"
+    },
+    "extra": {
+        "incenteev-parameters": {
+            "file": "app/parameters.yml"
+        }
     }
 }

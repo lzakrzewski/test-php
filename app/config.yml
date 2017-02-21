@@ -5,4 +5,4 @@ services:
     database_connection:
         class: \Doctrine\DBAL\Driver\Connection
         factory: [\Doctrine\DBAL\DriverManager, getConnection]
-        arguments: [{url: 'mysql://bof-test:bof-test@127.0.0.1/bof_test'}, '@database_configuration']
+        arguments: [{dbname: "%database_name%",  user: "%database_user%", password: "%database_password%", host: "%database_host%", driver: "pdo_mysql" }, '@database_configuration']
