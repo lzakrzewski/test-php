@@ -38,6 +38,6 @@ class TestDataResetCommandTest extends CLITestCase
 
     private function assertThatViewsTableIsNotEmpty()
     {
-        $this->assertNotEmpty($this->container()->get('database_connection')->fetchAll('select * from views'));
+        $this->assertNotEmpty($this->connection()->fetchAll('select * from views'));
     }
 }

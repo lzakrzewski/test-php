@@ -8,3 +8,10 @@ services:
         class: BOF\CLI\Command\ReportYearlyCommand
         tags:
             - { name: console.command }
+
+    app.query.report_yearly: "@app.query.report_yearly.dbal"
+
+    app.query.report_yearly.dbal:
+        class: \BOF\Infrastructure\DBALYearlyReportQuery
+        arguments:
+            - "@database_connection"
