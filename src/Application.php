@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BOF;
 
 use Symfony\Component\Config\FileLocator;
@@ -16,7 +18,7 @@ class Application extends ConsoleApplication
     /**
      * @var ContainerBuilder
      */
-    protected $container;
+    private $container;
 
     /**
      * @param string $name    The name of the application
@@ -54,7 +56,7 @@ class Application extends ConsoleApplication
     /**
      * @return ContainerBuilder
      */
-    public function getContainer()
+    public function getContainer(): ContainerBuilder
     {
         return $this->container;
     }

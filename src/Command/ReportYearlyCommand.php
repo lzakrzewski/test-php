@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BOF\Command;
 
 use Doctrine\DBAL\Driver\Connection;
@@ -13,8 +15,7 @@ class ReportYearlyCommand extends ContainerAwareCommand
     {
         $this
             ->setName('report:profiles:yearly')
-            ->setDescription('Page views report')
-        ;
+            ->setDescription('Page views report');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

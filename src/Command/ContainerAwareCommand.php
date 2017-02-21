@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BOF\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * Class BaseCommand.
- */
 abstract class ContainerAwareCommand extends Command
 {
     /**
-     * @return Container
+     * @return ContainerInterface
      */
-    public function getContainer()
+    public function getContainer(): ContainerInterface
     {
         return $this->getApplication()->getContainer();
     }
