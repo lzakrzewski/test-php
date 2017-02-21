@@ -49,11 +49,13 @@
         ],
         "static-analysis": "bin/php-cs-fixer fix --config-file=.php_cs",
         "setup-database": "bin/setup-database",
+        "unit": "bin/phpunit --testsuite=unit",
         "integration": "bin/phpunit --testsuite=integration",
         "acceptance": "bin/behat --out=std",
         "test": [
             "@static-analysis",
             "@setup-database",
+            "@unit",
             "@integration",
             "@acceptance"
         ]

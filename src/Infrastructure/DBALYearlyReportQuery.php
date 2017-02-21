@@ -21,51 +21,53 @@ class DBALYearlyReportQuery implements YearlyReportQuery
 
     public function get(int $year): array
     {
-        $result = $this->connection->fetchAll(
-            'SELECT * FROM views WHERE date >= :startDate AND date <= :endDate',
-            [
-                'startDate' => (new \DateTime(sprintf('%s-01-01', $year)))->format('Y-m-d'),
-                'endDate'   => (new \DateTime(sprintf('%s-12-31', $year)))->format('Y-m-d'),
-            ]
-        );
+        $sql = <<<'STR'
+SELECT
+   p.profile_id,
+   p.profile_name,
+   Month(v.date) as month,
+   SUM(v.views) as views 
+FROM
+   views AS v 
+   JOIN
+      profiles AS p 
+      ON v.profile_id = p.profile_id 
+WHERE
+   YEAR(v.date) = :year 
+GROUP BY
+   p.profile_id,
+   p.profile_name,
+   Month(v.date) 
+ORDER BY
+   p.profile_id ASC
+STR;
 
-        return [
-            new Profile(
-                'John Doe',
-                [
-                    Month::JAN($result[0]['views']),
-                    Month::FEB(0),
-                    Month::MAR(0),
-                    Month::APR(0),
-                    Month::MAY(0),
-                    Month::JUNE(0),
-                    Month::JULY(0),
-                    Month::JULY(0),
-                    Month::AUG(0),
-                    Month::SEP(0),
-                    Month::OCT(0),
-                    Month::NOV(0),
-                    Month::DEC(0),
-                ]
-            ),
-            new Profile(
-                'Joan Doe',
-                [
-                    Month::JAN($result[1]['views'] + $result[2]['views']),
-                    Month::FEB(0),
-                    Month::MAR(0),
-                    Month::APR(0),
-                    Month::MAY(0),
-                    Month::JUNE(0),
-                    Month::JULY(0),
-                    Month::JULY(0),
-                    Month::AUG(0),
-                    Month::SEP(0),
-                    Month::OCT(0),
-                    Month::NOV(0),
-                    Month::DEC(0),
-                ]
-            ),
-        ];
+        $result = $this->connection->fetchAll($sql, ['year' => $year]);
+
+        return array_reduce(
+            $result,
+            function (array $carry, array $profileData) {
+                if (!isset($carry[$profileData['profile_id']])) {
+                    $carry[$profileData['profile_id']] = new Profile(
+                        (int) $profileData['profile_id'],
+                        $profileData['profile_name'],
+                        []
+                    );
+                }
+
+                $carry[$profileData['profile_id']]->months = array_merge(
+                    $carry[$profileData['profile_id']]->months,
+                    [
+                        $profileData['month'] => Month::fromNumber(
+                            (int) $profileData['month'],
+                            (int) $profileData['views']
+                        ),
+                    ]
+                );
+
+                return $carry;
+            },
+            []
+        );
     }
 }
