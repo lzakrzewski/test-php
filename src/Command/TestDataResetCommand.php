@@ -1,4 +1,5 @@
 <?php
+
 namespace BOF\Command;
 
 use Doctrine\DBAL\Driver\Connection;
@@ -20,9 +21,9 @@ class TestDataResetCommand extends ContainerAwareCommand
         $io = new SymfonyStyle($input, $output);
         $io->title('Generating data');
         /** @var $db Connection */
-        $db = $this->getContainer()->get('database_connection');
+        $db        = $this->getContainer()->get('database_connection');
         $startDate = strtotime('2014-09-01');
-        $endDate = strtotime('2017-02-11');
+        $endDate   = strtotime('2017-02-11');
 
         $dataPerDay = 3;
 
@@ -32,16 +33,13 @@ class TestDataResetCommand extends ContainerAwareCommand
 
         $progress = $io->createProgressBar(count($profiles));
         foreach ($profiles as $profile) {
-
-            $profileId = $profile['profile_id'];
+            $profileId   = $profile['profile_id'];
             $currentDate = $startDate;
 
             while ($currentDate <= $endDate) {
-
-                for ($i = 0; $i <= $dataPerDay; $i++) {
-
+                for ($i = 0; $i <= $dataPerDay; ++$i) {
                     $views = rand(100, 9999);
-                    $date = date('Y-m-d', $currentDate);
+                    $date  = date('Y-m-d', $currentDate);
 
                     $sql = sprintf(
                         "INSERT INTO views (`profile_id`, `date`, `views`) VALUES (%s, '%s', %s)",
@@ -52,10 +50,9 @@ class TestDataResetCommand extends ContainerAwareCommand
                     $db->query($sql);
                 }
 
-                $currentDate = mktime(0,0,0, date('m', $currentDate), date('d', $currentDate) + 1, date('Y', $currentDate));
+                $currentDate = mktime(0, 0, 0, date('m', $currentDate), date('d', $currentDate) + 1, date('Y', $currentDate));
             }
             $progress->advance();
         }
-
     }
 }

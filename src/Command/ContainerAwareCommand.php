@@ -1,11 +1,12 @@
 <?php
+
 namespace BOF\Command;
-use \Symfony\Component\Console\Command\Command;
+
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * Class BaseCommand
- * @package BOF\Command
+ * Class BaseCommand.
  */
 abstract class ContainerAwareCommand extends Command
 {

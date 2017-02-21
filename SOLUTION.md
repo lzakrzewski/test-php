@@ -10,4 +10,4 @@ Spent: x hours
 
 Solution
 --------
-Comments on your solution
+- In order to keep "production code" clear `YearlyReport.feature` was moved to `./features`.

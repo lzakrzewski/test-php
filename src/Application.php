@@ -1,4 +1,5 @@
 <?php
+
 namespace BOF;
 
 use Symfony\Component\Config\FileLocator;
@@ -8,8 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
- * Class Application
- * @package BOF
+ * Class Application.
  */
 class Application extends ConsoleApplication
 {
@@ -25,7 +25,7 @@ class Application extends ConsoleApplication
     public function __construct($name = 'app', $version = '1')
     {
         $this->container = new ContainerBuilder();
-        $loader = new YamlFileLoader($this->container, new FileLocator(__DIR__.'/../app'));
+        $loader          = new YamlFileLoader($this->container, new FileLocator(__DIR__.'/../app'));
         $loader->load('config.yml');
         $loader->load('services.yml');
 
@@ -47,6 +47,7 @@ class Application extends ConsoleApplication
         foreach ($this->container->findTaggedServiceIds('console.command') as $commandId => $command) {
             $commands[] = $this->container->get($commandId);
         }
+
         return $commands;
     }
 
