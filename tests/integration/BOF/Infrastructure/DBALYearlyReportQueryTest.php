@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace tests\integration\BOF\Infrastructure;
 
 use BOF\Infrastructure\DBALYearlyReportQuery;
-use BOF\Query\Month;
-use BOF\Query\Profile;
+use BOF\Query\MonthView;
+use BOF\Query\ProfileView;
 use tests\integration\BOF\DatabaseTestCase;
 
 class DBALYearlyReportQueryTest extends DatabaseTestCase
@@ -28,8 +28,8 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
         $report = $this->query->get(2015);
 
         $this->assertCount(2, $report);
-        $this->assertEquals(Profile::withoutViews('John Doe')->withViewsIn(Month::JAN(3)), $report[1]);
-        $this->assertEquals(Profile::withoutViews('Bruce Lee')->withViewsIn(Month::FEB(5 + 3))->withViewsIn(Month::MAR(7)), $report[2]);
+        $this->assertEquals(ProfileView::withoutViews('John Doe')->withViewsIn(MonthView::JAN(3)), $report[1]);
+        $this->assertEquals(ProfileView::withoutViews('Bruce Lee')->withViewsIn(MonthView::FEB(5 + 3))->withViewsIn(MonthView::MAR(7)), $report[2]);
     }
 
     /** @test **/
@@ -44,7 +44,7 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
 
         $report = $this->query->get(2015);
         $this->assertCount(1, $report);
-        $this->assertEquals(Profile::withoutViews('John Doe')->withViewsIn(Month::JAN(2))->withViewsIn(Month::DEC(3)), $report[1]);
+        $this->assertEquals(ProfileView::withoutViews('John Doe')->withViewsIn(MonthView::JAN(2))->withViewsIn(MonthView::DEC(3)), $report[1]);
     }
 
     /** @test **/
@@ -58,8 +58,8 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
 
         $report = $this->query->get(2015);
         $this->assertCount(2, $report);
-        $this->assertEquals(Profile::withoutViews('John Doe')->withViewsIn(Month::JAN(11)), $report[1]);
-        $this->assertEquals(Profile::withoutViews('John Doe')->withViewsIn(Month::JAN(22)), $report[2]);
+        $this->assertEquals(ProfileView::withoutViews('John Doe')->withViewsIn(MonthView::JAN(11)), $report[1]);
+        $this->assertEquals(ProfileView::withoutViews('John Doe')->withViewsIn(MonthView::JAN(22)), $report[2]);
     }
 
     /** @test **/

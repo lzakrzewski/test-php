@@ -9,7 +9,7 @@ interface YearlyReportQuery
     /**
      * @param int $year
      *
-     * @return Profile[]
+     * @return ProfileView[]
      */
     public function get(int $year): array;
 }

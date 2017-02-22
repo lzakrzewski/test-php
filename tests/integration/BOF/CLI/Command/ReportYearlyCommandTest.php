@@ -57,7 +57,7 @@ class ReportYearlyCommandTest extends CLITestCase
     }
 
     /** @test @dataProvider invalidYears **/
-    public function it_fails_when_year_is_invalid()
+    public function it_returns_1_when_year_is_invalid()
     {
         $this->executeCLI($this->command, ['year' => 'invalid']);
 
@@ -68,8 +68,7 @@ class ReportYearlyCommandTest extends CLITestCase
     {
         return [
             ['invalid'],
-            [111.1111],
-            ['111.1111'],
+            ['abcd'],
         ];
     }
 

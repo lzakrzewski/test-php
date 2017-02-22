@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BOF\CLI\Command;
 
-use BOF\Query\Month;
-use BOF\Query\Profile;
+use BOF\Query\MonthView;
+use BOF\Query\ProfileView;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,7 +28,7 @@ class ReportYearlyCommand extends ContainerAwareCommand
 
             $this->renderReport($year, $input, $output);
         } catch (\InvalidArgumentException $exception) {
-            $output->writeln(sprintf('<error>%s</error>', $exception));
+            $output->writeln(sprintf('<error>%s</error>', $exception->getMessage()));
 
             return 1;
         }
@@ -42,8 +42,8 @@ class ReportYearlyCommand extends ContainerAwareCommand
             return (int) (new \DateTime())->format('Y');
         }
 
-        if (false === is_numeric($year) || false === is_integer($year)) {
-            throw new \InvalidArgumentException(sprintf('Year should be numeric integer. "%s" given', $year));
+        if (false === is_numeric($year)) {
+            throw new \InvalidArgumentException(sprintf('Year should be numeric and integer, but "%s" given', $year));
         }
 
         return (int) $year;
@@ -61,15 +61,10 @@ class ReportYearlyCommand extends ContainerAwareCommand
 
         $io = new SymfonyStyle($input, $output);
         $io->table(
-            array_merge([sprintf('Profile %d', $year)], Month::allTitleNames()),
-            array_map([$this, 'mapProfilesToRawData'], $report)
+            array_merge([sprintf('Profile %d', $year)], MonthView::allTitleNames()),
+            array_map(function (ProfileView $profile) {
+                return $profile->viewsInMonthsRaw();
+            }, $report)
         );
-    }
-
-    private function mapProfilesToRawData(Profile $profile): array
-    {
-        return array_merge([$profile->name], array_map(function (Month $month) {
-            return $month->views;
-        }, $profile->months));
     }
 }

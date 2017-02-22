@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace BOF\Query;
 
 /**
- * @method static Month JAN(int $views)
- * @method static Month FEB(int $views)
- * @method static Month MAR(int $views)
- * @method static Month APR(int $views)
- * @method static Month MAY(int $views)
- * @method static Month JUN(int $views)
- * @method static Month JUL(int $views)
- * @method static Month AUG(int $views)
- * @method static Month SEP(int $views)
- * @method static Month OCT(int $views)
- * @method static Month NOV(int $views)
- * @method static Month DEC(int $views)
+ * @method static MonthView JAN(int $views)
+ * @method static MonthView FEB(int $views)
+ * @method static MonthView MAR(int $views)
+ * @method static MonthView APR(int $views)
+ * @method static MonthView MAY(int $views)
+ * @method static MonthView JUN(int $views)
+ * @method static MonthView JUL(int $views)
+ * @method static MonthView AUG(int $views)
+ * @method static MonthView SEP(int $views)
+ * @method static MonthView OCT(int $views)
+ * @method static MonthView NOV(int $views)
+ * @method static MonthView DEC(int $views)
  */
-final class Month
+final class MonthView
 {
     const MONTHS = [
         1  => 'JAN',
@@ -35,11 +35,11 @@ final class Month
         12 => 'DEC',
     ];
 
-    /** @var string */
-    public $name;
+    /** @var int */
+    private $number;
 
     /** @var int */
-    public $views;
+    private $views;
 
     private function __construct(int $number, int $views)
     {
@@ -74,5 +74,15 @@ final class Month
     public static function fromNumber(int $number, int $views): self
     {
         return new self($number, $views);
+    }
+
+    public function number(): int
+    {
+        return $this->number;
+    }
+
+    public function views(): int
+    {
+        return $this->views;
     }
 }

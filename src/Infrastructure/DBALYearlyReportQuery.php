@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BOF\Infrastructure;
 
-use BOF\Query\Month;
-use BOF\Query\Profile;
+use BOF\Query\MonthView;
+use BOF\Query\ProfileView;
 use BOF\Query\YearlyReportQuery;
 use Doctrine\DBAL\Connection;
 
@@ -54,13 +54,13 @@ STR;
     private function hydrateView(array $carry, array $profileData)
     {
         if (!isset($carry[$profileData['profile_id']])) {
-            $carry[$profileData['profile_id']] = Profile::withoutViews($profileData['profile_name']);
+            $carry[$profileData['profile_id']] = ProfileView::withoutViews($profileData['profile_name']);
         }
 
         $profile = $carry[$profileData['profile_id']];
 
         $carry[$profileData['profile_id']] = $profile->withViewsIn(
-            Month::fromNumber((int) $profileData['month'], (int) $profileData['views'])
+            MonthView::fromNumber((int) $profileData['month'], (int) $profileData['views'])
         );
 
         return $carry;
