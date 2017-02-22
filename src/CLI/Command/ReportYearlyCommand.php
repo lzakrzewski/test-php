@@ -63,7 +63,7 @@ class ReportYearlyCommand extends ContainerAwareCommand
         $io->table(
             array_merge([sprintf('Profile %d', $year)], MonthView::allTitleNames()),
             array_map(function (ProfileView $profile) {
-                return $profile->viewsInMonthsRaw();
+                return $profile->rawArray();
             }, $report)
         );
     }

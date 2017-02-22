@@ -8,7 +8,6 @@ use BOF\Application;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Process\Process;
 use tests\dictionary\BOF\Persistence;
 
 abstract class DatabaseTestCase extends TestCase
@@ -45,20 +44,5 @@ abstract class DatabaseTestCase extends TestCase
     {
         $this->container  = null;
         $this->connection = null;
-    }
-
-    private function setupDatabase()
-    {
-        $connection = $this->connection();
-        $databases  = $connection->fetchAll(sprintf('SHOW DATABASES LIKE "%s";', $this->container()->getParameter('database_name')));
-
-        if (empty($databases)) {
-            $process = new Process('bin/setup-database');
-            $process->run();
-
-            return;
-        }
-
-        $connection->exec('TRUNCATE views; TRUNCATE profiles');
     }
 }

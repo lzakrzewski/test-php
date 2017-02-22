@@ -56,10 +56,10 @@ final class ProfileView
         return $this->months;
     }
 
-    public function viewsInMonthsRaw(): array
+    public function rawArray(): array
     {
-        return array_map(function (MonthView $monthView) {
+        return array_merge([$this->name], array_map(function (MonthView $monthView) {
             return $monthView->number();
-        }, $this->months);
+        }, $this->months));
     }
 }

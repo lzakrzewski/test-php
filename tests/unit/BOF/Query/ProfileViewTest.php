@@ -36,7 +36,7 @@ class ProfileViewTest extends TestCase
     }
 
     /** @test **/
-    public function it_has_raw_array_with_views_in_months()
+    public function it_has_raw_array()
     {
         $profile = ProfileView::withoutViews('John Doe')
             ->withViewsIn(MonthView::JAN(1))
@@ -52,6 +52,6 @@ class ProfileViewTest extends TestCase
             ->withViewsIn(MonthView::FEB(11))
             ->withViewsIn(MonthView::FEB(12));
 
-        $this->assertEquals([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], $profile->viewsInMonthsRaw());
+        $this->assertEquals(['John Doe', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], $profile->rawArray());
     }
 }

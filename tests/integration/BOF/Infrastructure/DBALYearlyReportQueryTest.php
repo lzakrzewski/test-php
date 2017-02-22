@@ -21,15 +21,18 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
         $this->persistProfile(2, 'Bruce Lee');
 
         $this->persistView(1, '2015-01-01', 3);
+        $this->persistView(1, '2015-01-01', 3);
+        $this->persistView(1, '2015-01-31', 3);
+
         $this->persistView(2, '2015-02-01', 5);
-        $this->persistView(2, '2015-02-03', 3);
+        $this->persistView(2, '2015-02-03', 4);
         $this->persistView(2, '2015-03-01', 7);
 
         $report = $this->query->get(2015);
 
         $this->assertCount(2, $report);
-        $this->assertEquals(ProfileView::withoutViews('John Doe')->withViewsIn(MonthView::JAN(3)), $report[1]);
-        $this->assertEquals(ProfileView::withoutViews('Bruce Lee')->withViewsIn(MonthView::FEB(5 + 3))->withViewsIn(MonthView::MAR(7)), $report[2]);
+        $this->assertEquals(ProfileView::withoutViews('John Doe')->withViewsIn(MonthView::JAN(3 + 3 + 3)), $report[1]);
+        $this->assertEquals(ProfileView::withoutViews('Bruce Lee')->withViewsIn(MonthView::FEB(5 + 4))->withViewsIn(MonthView::MAR(7)), $report[2]);
     }
 
     /** @test **/
@@ -60,6 +63,30 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
         $this->assertCount(2, $report);
         $this->assertEquals(ProfileView::withoutViews('John Doe')->withViewsIn(MonthView::JAN(11)), $report[1]);
         $this->assertEquals(ProfileView::withoutViews('John Doe')->withViewsIn(MonthView::JAN(22)), $report[2]);
+    }
+
+    /** @test **/
+    public function it_can_return_yearly_report_sorted_by_profile_name_in_alphabetic_order()
+    {
+        $this->persistProfile(1, 'Tom Ford');
+        $this->persistProfile(2, 'Pierre Alexis Dumas');
+        $this->persistProfile(3, 'Anna Wintour');
+        $this->persistProfile(4, 'Sandra Choi');
+        $this->persistProfile(5, 'Karl Lagerfeld');
+
+        $this->persistView(1, '2015-10-10', 10);
+        $this->persistView(2, '2015-01-01', 9);
+        $this->persistView(3, '2015-03-03', 8);
+        $this->persistView(4, '2015-09-09', 7);
+        $this->persistView(5, '2015-05-07', 6);
+
+        $report = array_values($this->query->get(2015));
+        $this->assertCount(5, $report);
+        $this->assertEquals($report[0]->name(), 'Anna Wintour');
+        $this->assertEquals($report[1]->name(), 'Karl Lagerfeld');
+        $this->assertEquals($report[2]->name(), 'Pierre Alexis Dumas');
+        $this->assertEquals($report[3]->name(), 'Sandra Choi');
+        $this->assertEquals($report[4]->name(), 'Tom Ford');
     }
 
     /** @test **/

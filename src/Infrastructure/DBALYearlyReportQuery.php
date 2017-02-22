@@ -39,7 +39,7 @@ GROUP BY
    p.profile_name,
    Month(v.date) 
 ORDER BY
-   p.profile_id ASC
+   p.profile_name ASC
 STR;
 
         $result = $this->connection->fetchAll($sql, ['year' => $year]);
