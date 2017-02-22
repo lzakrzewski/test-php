@@ -13,12 +13,64 @@ class ReportYearlyCommandTest extends CLITestCase
     private $command;
 
     /** @test **/
-    public function it_can_return_0_status_code_when_report_command_was_executed()
+    public function it_can_return_0_when_input_contains_an_year()
     {
+        $this->persistProfile(1, 'John Doe');
+        $this->persistView(1, '2015-01-01', 1);
+
+        $this->executeCLI($this->command, ['year' => 2015]);
+
+        $this->assertExitCode(0);
+        $this->assertDisplayContains('Profile');
+    }
+
+    /** @test **/
+    public function it_can_return_0_when_input_does_not_contains_an_year()
+    {
+        $this->persistProfile(1, 'John Doe');
+        $this->persistView(1, (new \DateTime())->format('Y-m-d'), 1);
+
         $this->executeCLI($this->command);
 
         $this->assertExitCode(0);
         $this->assertDisplayContains('Profile');
+    }
+
+    /** @test **/
+    public function it_can_return_0_status_code_when_no_data_in_database()
+    {
+        $this->executeCLI($this->command, ['year' => 2015]);
+
+        $this->assertExitCode(0);
+        $this->assertDisplayContains('n/a');
+    }
+
+    /** @test **/
+    public function it_can_return_0_when_data_is_incomplete()
+    {
+        $this->persistView(1, '2015-01-01', 1);
+
+        $this->executeCLI($this->command, ['year' => 2015]);
+
+        $this->assertExitCode(0);
+        $this->assertDisplayContains('n/a');
+    }
+
+    /** @test @dataProvider invalidYears **/
+    public function it_fails_when_year_is_invalid()
+    {
+        $this->executeCLI($this->command, ['year' => 'invalid']);
+
+        $this->assertExitCode(1);
+    }
+
+    public function invalidYears(): array
+    {
+        return [
+            ['invalid'],
+            [111.1111],
+            ['111.1111'],
+        ];
     }
 
     protected function setUp()

@@ -15,8 +15,8 @@ class TestDataResetCommandTest extends CLITestCase
     /** @test **/
     public function it_can_return_0_status_code_when_test_data_command_was_executed()
     {
-        $this->addProfile(1, 'John Doe');
-        $this->addViews(1, '2015-01-01', 12);
+        $this->persistProfile(1, 'John Doe');
+        $this->persistView(1, '2015-01-01', 12);
 
         $this->executeCLI($this->command, ['startDate' => '2015-01-01 00:00:00', 'endDate' => '2015-01-01 00:00:01']);
 

@@ -17,13 +17,13 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
     /** @test **/
     public function it_can_return_yearly_report()
     {
-        $this->addProfile(1, 'John Doe');
-        $this->addProfile(2, 'Bruce Lee');
+        $this->persistProfile(1, 'John Doe');
+        $this->persistProfile(2, 'Bruce Lee');
 
-        $this->addViews(1, '2015-01-01', 3);
-        $this->addViews(2, '2015-02-01', 5);
-        $this->addViews(2, '2015-02-03', 3);
-        $this->addViews(2, '2015-03-01', 7);
+        $this->persistView(1, '2015-01-01', 3);
+        $this->persistView(2, '2015-02-01', 5);
+        $this->persistView(2, '2015-02-03', 3);
+        $this->persistView(2, '2015-03-01', 7);
 
         $report = $this->query->get(2015);
 
@@ -35,12 +35,12 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
     /** @test **/
     public function it_consider_only_views_from_given_year()
     {
-        $this->addProfile(1, 'John Doe');
+        $this->persistProfile(1, 'John Doe');
 
-        $this->addViews(1, '2014-12-31', 1);
-        $this->addViews(1, '2015-01-01', 2);
-        $this->addViews(1, '2015-12-31', 3);
-        $this->addViews(1, '2016-01-01', 4);
+        $this->persistView(1, '2014-12-31', 1);
+        $this->persistView(1, '2015-01-01', 2);
+        $this->persistView(1, '2015-12-31', 3);
+        $this->persistView(1, '2016-01-01', 4);
 
         $report = $this->query->get(2015);
         $this->assertCount(1, $report);
@@ -50,11 +50,11 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
     /** @test **/
     public function it_can_return_yearly_report_when_profile_name_is_duplicated()
     {
-        $this->addProfile(1, 'John Doe');
-        $this->addProfile(2, 'John Doe');
+        $this->persistProfile(1, 'John Doe');
+        $this->persistProfile(2, 'John Doe');
 
-        $this->addViews(1, '2015-01-01', 11);
-        $this->addViews(2, '2015-01-01', 22);
+        $this->persistView(1, '2015-01-01', 11);
+        $this->persistView(2, '2015-01-01', 22);
 
         $report = $this->query->get(2015);
         $this->assertCount(2, $report);
@@ -71,8 +71,8 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
     /** @test **/
     public function it_returns_empty_when_no_profiles()
     {
-        $this->addViews(1, '2015-01-01', 11);
-        $this->addViews(2, '2015-01-01', 22);
+        $this->persistView(1, '2015-01-01', 11);
+        $this->persistView(2, '2015-01-01', 22);
 
         $this->assertEmpty($this->query->get(2015));
     }

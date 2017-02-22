@@ -9,9 +9,12 @@ use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Process\Process;
+use tests\dictionary\BOF\Persistence;
 
 abstract class DatabaseTestCase extends TestCase
 {
+    use Persistence;
+
     /** @var ContainerInterface */
     private $container;
 
@@ -42,29 +45,6 @@ abstract class DatabaseTestCase extends TestCase
     {
         $this->container  = null;
         $this->connection = null;
-    }
-
-    protected function addProfile(int $profileId, string $profileName)
-    {
-        $this->connection()->insert(
-            'profiles',
-            [
-                'profile_id'   => $profileId,
-                'profile_name' => $profileName,
-            ]
-        );
-    }
-
-    protected function addViews(int $profileId, string $date, int $views)
-    {
-        $this->connection()->insert(
-            'views',
-            [
-                'profile_id' => $profileId,
-                'date'       => $date,
-                'views'      => $views,
-            ]
-        );
     }
 
     private function setupDatabase()
