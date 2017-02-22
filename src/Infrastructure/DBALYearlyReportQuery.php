@@ -46,22 +46,23 @@ STR;
 
         return array_reduce(
             $result,
-            function (array $carry, array $profileData) {
-                if (!isset($carry[$profileData['profile_id']])) {
-                    $carry[$profileData['profile_id']] = Profile::withoutViews($profileData['profile_name']);
-                }
-
-                $carry[$profileData['profile_id']] = $carry[$profileData['profile_id']]
-                    ->withViewsIn(
-                        Month::fromNumber(
-                            (int) $profileData['month'],
-                            (int) $profileData['views']
-                        )
-                    );
-
-                return $carry;
-            },
+            [$this, 'hydrateView'],
             []
         );
+    }
+
+    private function hydrateView(array $carry, array $profileData)
+    {
+        if (!isset($carry[$profileData['profile_id']])) {
+            $carry[$profileData['profile_id']] = Profile::withoutViews($profileData['profile_name']);
+        }
+
+        $profile = $carry[$profileData['profile_id']];
+
+        $carry[$profileData['profile_id']] = $profile->withViewsIn(
+            Month::fromNumber((int) $profileData['month'], (int) $profileData['views'])
+        );
+
+        return $carry;
     }
 }

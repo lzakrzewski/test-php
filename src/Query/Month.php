@@ -10,8 +10,8 @@ namespace BOF\Query;
  * @method static Month MAR(int $views)
  * @method static Month APR(int $views)
  * @method static Month MAY(int $views)
- * @method static Month JUNE(int $views)
- * @method static Month JULY(int $views)
+ * @method static Month JUN(int $views)
+ * @method static Month JUL(int $views)
  * @method static Month AUG(int $views)
  * @method static Month SEP(int $views)
  * @method static Month OCT(int $views)
@@ -26,8 +26,8 @@ final class Month
         3  => 'MAR',
         4  => 'APR',
         5  => 'MAY',
-        6  => 'JUNE',
-        7  => 'JULY',
+        6  => 'JUN',
+        7  => 'JUL',
         8  => 'AUG',
         9  => 'SEP',
         10 => 'OCT',
@@ -62,6 +62,13 @@ final class Month
         }
 
         return new self(array_flip(self::MONTHS)[$name], $arguments[0]);
+    }
+
+    public static function allTitleNames(): array
+    {
+        return array_map(function (string $name) {
+            return ucfirst(strtolower($name));
+        }, array_values(self::MONTHS));
     }
 
     public static function fromNumber(int $number, int $views): self

@@ -12,6 +12,6 @@ services:
     app.query.report_yearly: "@app.query.report_yearly.dbal"
 
     app.query.report_yearly.dbal:
-        class: \BOF\Infrastructure\DBALYearlyReportQuery
+        class: BOF\Infrastructure\DBALYearlyReportQuery
         arguments:
             - "@database_connection"

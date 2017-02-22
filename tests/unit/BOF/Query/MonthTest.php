@@ -24,8 +24,8 @@ class MonthTest extends TestCase
             [Month::MAR(1), 3],
             [Month::APR(1), 4],
             [Month::MAY(1), 5],
-            [Month::JUNE(1), 6],
-            [Month::JULY(1), 7],
+            [Month::JUN(1), 6],
+            [Month::JUL(1), 7],
             [Month::AUG(1), 8],
             [Month::SEP(1), 9],
             [Month::OCT(1), 10],
@@ -41,5 +41,27 @@ class MonthTest extends TestCase
 
         $this->assertEquals(1, 1);
         $this->assertEquals(99, $month->views);
+    }
+
+    /** @test **/
+    public function it_has_all_months_title_names()
+    {
+        $this->assertEquals(
+            [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec',
+            ],
+            Month::allTitleNames()
+        );
     }
 }

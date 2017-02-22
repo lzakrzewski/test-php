@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace BOF\CLI\Command;
 
-use Doctrine\DBAL\Driver\Connection;
+use BOF\Query\Month;
+use BOF\Query\Profile;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -20,13 +21,23 @@ class ReportYearlyCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var $db Connection */
         $io = new SymfonyStyle($input, $output);
-        $db = $this->getContainer()->get('database_connection');
+        $io->table($this->renderHeaders(), $this->renderViews());
+    }
 
-        $profiles = $db->query('SELECT profile_name FROM profiles')->fetchAll();
+    private function renderHeaders(): array
+    {
+        return array_merge([sprintf('Profile %d', 2015)], Month::allTitleNames());
+    }
 
-        // Show data in a table - headers, data
-        $io->table(['Profile'], $profiles);
+    private function renderViews(): array
+    {
+        $query = $this->getContainer()->get('app.query.report_yearly');
+
+        return array_map(function (Profile $profile) {
+            return array_merge([$profile->name], array_map(function (Month $month) {
+                return $month->views;
+            }, $profile->months));
+        }, $query->get(2015));
     }
 }
