@@ -48,22 +48,16 @@ STR;
             $result,
             function (array $carry, array $profileData) {
                 if (!isset($carry[$profileData['profile_id']])) {
-                    $carry[$profileData['profile_id']] = new Profile(
-                        (int) $profileData['profile_id'],
-                        $profileData['profile_name'],
-                        []
-                    );
+                    $carry[$profileData['profile_id']] = Profile::withoutViews($profileData['profile_name']);
                 }
 
-                $carry[$profileData['profile_id']]->months = array_merge(
-                    $carry[$profileData['profile_id']]->months,
-                    [
-                        $profileData['month'] => Month::fromNumber(
+                $carry[$profileData['profile_id']] = $carry[$profileData['profile_id']]
+                    ->withViewsIn(
+                        Month::fromNumber(
                             (int) $profileData['month'],
                             (int) $profileData['views']
-                        ),
-                    ]
-                );
+                        )
+                    );
 
                 return $carry;
             },

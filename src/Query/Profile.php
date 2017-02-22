@@ -6,19 +6,43 @@ namespace BOF\Query;
 
 final class Profile
 {
-    /** @var int */
-    public $id;
-
     /** @var string */
     public $name;
 
     /** @var array */
     public $months;
 
-    public function __construct(int $id, string $name, array $months)
+    private function __construct(string $name, array $months)
     {
         $this->name   = $name;
         $this->months = $months;
-        $this->id     = $id;
+    }
+
+    public static function withoutViews(string $name): self
+    {
+        return new self(
+            $name,
+            [
+                Month::JAN(0),
+                Month::FEB(0),
+                Month::MAR(0),
+                Month::APR(0),
+                Month::MAY(0),
+                Month::JUNE(0),
+                Month::JULY(0),
+                Month::AUG(0),
+                Month::SEP(0),
+                Month::OCT(0),
+                Month::NOV(0),
+                Month::DEC(0),
+            ]
+        );
+    }
+
+    public function withViewsIn(Month $month): self
+    {
+        $this->months[$month->number - 1] = $month;
+
+        return new self($this->name, $this->months);
     }
 }

@@ -46,21 +46,25 @@ abstract class DatabaseTestCase extends TestCase
 
     protected function addProfile(int $profileId, string $profileName)
     {
-        $this->connection()->insert('profiles', ['profile_id' => $profileId, 'profile_name' => $profileName]);
+        $this->connection()->insert(
+            'profiles',
+            [
+                'profile_id'   => $profileId,
+                'profile_name' => $profileName,
+            ]
+        );
     }
 
     protected function addViews(int $profileId, string $date, int $views)
     {
-        for ($idx = 1; $idx <= $views; ++$idx) {
-            $this->connection()->insert(
-                'views',
-                [
-                    'profile_id' => $profileId,
-                    'date'       => sprintf('%s-%02d', $date, rand(1, 27)),
-                    'views'      => 1,
-                ]
-            );
-        }
+        $this->connection()->insert(
+            'views',
+            [
+                'profile_id' => $profileId,
+                'date'       => $date,
+                'views'      => $views,
+            ]
+        );
     }
 
     private function setupDatabase()
