@@ -1,4 +1,4 @@
-Backend Developer Test
+Backend Developer Test [![Build Status](https://travis-ci.org/lzakrzewski/test-php.svg?branch=master)](https://travis-ci.org/lzakrzewski/test-php)
 ======================
 The Business of Fashion uses various tests to assess whether a candidate is best suited to the expectations of the role advertised and the offer given.
 
