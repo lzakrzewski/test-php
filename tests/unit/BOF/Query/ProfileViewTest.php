@@ -39,19 +39,19 @@ class ProfileViewTest extends TestCase
     public function it_has_raw_array()
     {
         $profile = ProfileView::withoutViews('John Doe')
-            ->withViewsIn(MonthView::JAN(1))
-            ->withViewsIn(MonthView::FEB(2))
-            ->withViewsIn(MonthView::FEB(3))
-            ->withViewsIn(MonthView::FEB(4))
-            ->withViewsIn(MonthView::FEB(5))
-            ->withViewsIn(MonthView::FEB(6))
-            ->withViewsIn(MonthView::FEB(7))
-            ->withViewsIn(MonthView::FEB(8))
-            ->withViewsIn(MonthView::FEB(9))
-            ->withViewsIn(MonthView::FEB(10))
-            ->withViewsIn(MonthView::FEB(11))
-            ->withViewsIn(MonthView::FEB(12));
+            ->withViewsIn(MonthView::JAN(12))
+            ->withViewsIn(MonthView::FEB(13))
+            ->withViewsIn(MonthView::MAR(14))
+            ->withViewsIn(MonthView::APR(15))
+            ->withViewsIn(MonthView::MAY(16))
+            ->withViewsIn(MonthView::JUN(17))
+            ->withViewsIn(MonthView::JUL(18))
+            ->withViewsIn(MonthView::AUG(19))
+            ->withViewsIn(MonthView::SEP(20))
+            ->withViewsIn(MonthView::OCT(21))
+            ->withViewsIn(MonthView::NOV(22))
+            ->withViewsIn(MonthView::DEC(23));
 
-        $this->assertEquals(['John Doe', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], $profile->rawArray());
+        $this->assertEquals(['John Doe', 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], $profile->rawArray());
     }
 }

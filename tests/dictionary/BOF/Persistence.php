@@ -41,11 +41,9 @@ trait Persistence
         if (empty($databases)) {
             $process = new Process('bin/setup-database');
             $process->run();
-
-            return;
         }
 
-        $connection->exec('TRUNCATE views; TRUNCATE profiles');
+        $connection->exec('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE profiles; TRUNCATE TABLE views; SET FOREIGN_KEY_CHECKS = 1;');
     }
 
     abstract protected function connection(): Connection;

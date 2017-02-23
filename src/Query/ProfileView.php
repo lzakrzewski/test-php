@@ -59,7 +59,7 @@ final class ProfileView
     public function rawArray(): array
     {
         return array_merge([$this->name], array_map(function (MonthView $monthView) {
-            return $monthView->number();
+            return $monthView->views();
         }, $this->months));
     }
 }

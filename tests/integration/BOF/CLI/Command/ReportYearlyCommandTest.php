@@ -48,7 +48,7 @@ class ReportYearlyCommandTest extends CLITestCase
     /** @test **/
     public function it_can_return_0_when_data_is_incomplete()
     {
-        $this->persistView(1, '2015-01-01', 1);
+        $this->persistProfile(1, 'John Doe');
 
         $this->executeCLI($this->command, ['year' => 2015]);
 

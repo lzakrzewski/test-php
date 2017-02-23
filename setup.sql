@@ -11,14 +11,19 @@ CREATE DATABASE IF NOT EXISTS `bof_test` DEFAULT CHARACTER SET utf8 COLLATE utf8
 DROP TABLE IF EXISTS `bof_test`.`profiles`;
 CREATE TABLE `bof_test`.`profiles` (
 `profile_id` INT NOT NULL ,
-`profile_name` VARCHAR( 100 ) NOT NULL
+`profile_name` VARCHAR( 100 ) NOT NULL,
+PRIMARY KEY (`profile_id`)
 ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS `bof_test`.`views`;
 CREATE TABLE `bof_test`.`views` (
 `profile_id` INT NOT NULL ,
 `date` DATE NOT NULL ,
-`views` INT NOT NULL
+`views` INT NOT NULL,
+FOREIGN KEY (`profile_id`) REFERENCES `bof_test`.`profiles`(`profile_id`)
 ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE INDEX `date_idx`
+ON `bof_test`.`views` (`date`);
 
 INSERT INTO `bof_test`.`profiles` VALUES(1, 'Karl Lagerfeld'), (2, 'Anna Wintour'), (3, 'Tom Ford'), (4, 'Pierre Alexis Dumas'), (5, 'Sandra Choi');

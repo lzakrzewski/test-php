@@ -96,10 +96,10 @@ class DBALYearlyReportQueryTest extends DatabaseTestCase
     }
 
     /** @test **/
-    public function it_returns_empty_when_no_profiles()
+    public function it_returns_empty_when_no_views()
     {
-        $this->persistView(1, '2015-01-01', 11);
-        $this->persistView(2, '2015-01-01', 22);
+        $this->persistProfile(1, 'Tom Ford');
+        $this->persistProfile(2, 'Pierre Alexis Dumas');
 
         $this->assertEmpty($this->query->get(2015));
     }

@@ -30,13 +30,17 @@ class TestDataResetCommand extends ContainerAwareCommand
         $startDate = $this->startDate($input);
         $endDate   = $this->endDate($input);
 
-        $dataPerDay = 3;
+        $dataPerDay = 10;
 
         $db->query('TRUNCATE views');
 
         $profiles = $db->query('SELECT * FROM profiles')->fetchAll();
 
         $progress = $io->createProgressBar(count($profiles));
+
+        $queriesCounter = 0;
+        $db->beginTransaction();
+
         foreach ($profiles as $profile) {
             $profileId   = $profile['profile_id'];
             $currentDate = $startDate;
@@ -46,12 +50,19 @@ class TestDataResetCommand extends ContainerAwareCommand
                     $views = rand(100, 9999);
                     $date  = date('Y-m-d', $currentDate);
 
+                    ++$queriesCounter;
                     $sql = sprintf(
                         "INSERT INTO views (`profile_id`, `date`, `views`) VALUES (%s, '%s', %s)",
                         $profileId,
                         $date,
                         $views
                     );
+
+                    if (0 === $queriesCounter % 100) {
+                        $db->commit();
+                        $db->beginTransaction();
+                    }
+
                     $db->query($sql);
                 }
 
@@ -59,6 +70,8 @@ class TestDataResetCommand extends ContainerAwareCommand
             }
             $progress->advance();
         }
+
+        $db->commit();
     }
 
     private function startDate(InputInterface $input): int
